@@ -1,11 +1,13 @@
 import './App.css';
-
 import React from 'react';
+import Nav from './Nav';
+import Main from './Main';
 function App() {
   return (
-    <div>
-      <h1>Hehe</h1>
-    </div>
+      <div>
+        <Nav />
+        <Main />
+      </div>
   );
 }
 export default App;
