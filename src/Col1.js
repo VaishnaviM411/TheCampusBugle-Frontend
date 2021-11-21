@@ -1,19 +1,62 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Col1.css';
 import profilepic from './profilepic.jpg'
-class Col1 extends React.Component
+import { getToken, getURL, getUsername } from './utils';
+import axios from 'axios';
+function Col1() 
 {
-    render(){
+    const [userprofile, setuserprofile] = useState([]);
+    let profileURL;
+    useEffect(()=>{
+        try{
+            const token = getToken();
+            //console.log(token);
+            const username = getUsername();
+            if(username.length>0)
+            {
+                profileURL = getURL()+"profile/"+getUsername();
+                axios.get(profileURL,
+                    {headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `${token}`
+                }})
+                .then(res => {
+                    setuserprofile(res.data);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                    if(err.message==="Request failed with status code 401")
+                    {
+                        alert("Login to access TheCampusBugle");
+            window.location="/login";
+            return;
+                    }
+                }
+
+                )
+            }
+        }
+        catch{
+            alert("Login to access TheCampusBugle");
+            window.location="/login";
+            return;
+        }
+        
+    });
+
+
+    
         return(
             <>
             <div class="col1">
                 <div class="profile-card"><center>
                 
-                    <img src={profilepic}></img>
-                    <h5>User Name</h5>
+                    <img src={userprofile["profile_picture"]} alt="profilepic"></img>
+                    <h5>{userprofile["username"]}</h5>
+                    <div><p>{userprofile["first_name"]} {userprofile["last_name"]}</p></div>
                     <div class="info">
-                    <div><h6>Branch</h6><p>CSE</p></div>
-                    <div><h6>PRN</h6><p>2019BTECS00105</p></div>
+                    <div><h6>Branch</h6><p>{userprofile["branch"]}</p></div>
+                    <div><h6>PRN</h6><p>{userprofile["PRN"]}</p></div>
                     </div>
                     </center>
                 </div>
@@ -31,7 +74,7 @@ class Col1 extends React.Component
             </div>
             </>
         )
-    }
+    
 }
 
 export default Col1;
