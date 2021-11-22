@@ -8,14 +8,6 @@
     --cont-text: white;
     --text: black;
 }
-body
-{
-    margin: 0;
-    font-family: var(--pri-font);
-    background-color: var(--pri-color);
-    display: flex;
-    justify-content: center;
-}
 
 .login-form
 {

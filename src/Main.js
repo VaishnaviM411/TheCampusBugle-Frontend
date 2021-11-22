@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import Nav from './Nav';
 import Col1 from './Col1';
-import Col2 from './Col2';
+import Feed from './Feed';
 import Col3 from './Col3';
 
 function Main()
@@ -35,8 +35,7 @@ function Main()
                 <div class="main-panel">
                     <Nav/>
                     <Col1/>
-                    <Col2/>
-                    <Col3/>
+                    <Feed/>
                 </div>
             </>
         );

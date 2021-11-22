@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root 
+{
+    --pri-color: #A470FF;
+    --sec-color: #ECECEC;
+    --pri-font: 'Montserrat', sans-serif;
+    --cont-text: white;
+    --text: black;
+}
+
+.feed
+{
+    background-color: var(--cont-text);
+    border-radius: 15px;
+    display: block;
+    margin: 5%;
+    width: 80%;
+}
+
+.feed-heading
+{
+    background-color: var(--pri-color);
+    color: var(--cont-text);
+    border-radius: 15px 15px 0 0;
+    padding: 2%;
+}
+
+.feed-heading a, .feed-heading a:hover,.feed-heading a:visited
+{
+    text-decoration: none;
+    float: right;
+}
+
+.post
+{
+    display: flex;
+    padding: 2%;
+}
+
+.post-content
+{
+    background-color: var(--sec-color);
+    margin: 1%;
+    padding: 1%;
+    border-radius: 15px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.text-content
+{
+    padding: 1%;
+    width: 100%;
+    overflow-wrap: break-word;
+   
+}
+
+.text-content h6
+{
+    color: var(--pri-color);
+}
+
+.text-content p
+{
+    color: var(--text);
+}
+
+.file-content
+{
+    width: 90%;
+}
+
+
+.file-content img
+{
+    padding: 1%;
+    width: 100%;
+    object-fit: contain;
+
+}
+
+.comments
+{
+    background-color: var(--sec-color);
+    margin: 1%;
+    padding: 1%;
+    border-radius: 15px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.author-pic img
+{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    padding: 5%;
+}
+
+@media  screen and (max-width: 830px) 
+{
+    
+    
+}

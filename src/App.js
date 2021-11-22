@@ -7,6 +7,7 @@ import Login from './Login';
 import StudentSignup from './StudentSignup';
 import ClubSignup from './ClubSignup';
 import FacultySignup from './FacultySignup';
+import Createpost from './Createpost';
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
               <Route exact path="/student-signup" element={<StudentSignup/>} />
               <Route exact path="/club-signup" element={<ClubSignup/>} />
               <Route exact path="/faculty-signup" element={<FacultySignup/>} />
+              <Route exact path="/post-to/:section" element={<Createpost/>} />
             </Routes>
             
           </div>

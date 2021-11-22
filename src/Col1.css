@@ -12,6 +12,7 @@
 {
     width: 25%;
     padding: 5% 0;
+    justify-content: flex-start;
 }
 .profile-card
 {
@@ -19,12 +20,14 @@
     background-color: var(--cont-text);
     color: var(--pri-color);
     border-radius: 10px;
+    margin: 10px 0;
 }
 
 .profile-card img
 {
     border-radius: 50%;
-    width: 80px;
+    width: 100px;
+    height: 100px;
     margin: 10px;
 }
 
@@ -50,4 +53,34 @@
     {
         display: none;
     }
+}
+
+.Row
+{
+    display: flex;
+}
+
+.view-profile a, .view-profile a:hover,.view-profile a:visited, .settings a, .settings a:hover,.settings a:visited, .logout-round a, .logout-round a:hover,.logout-round a:visited
+{
+    width: 100%;
+    text-decoration: none;
+    color: var(--text);
+    padding: 1%;
+}
+
+.settings
+{
+    width: 100%;
+    background-color: var(--cont-text);
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.view-profile, .logout-round
+{
+    width: 50%;
+    background-color: var(--cont-text);
+    border-radius: 10px;
+    margin-right: 5px;
+ 
 }
