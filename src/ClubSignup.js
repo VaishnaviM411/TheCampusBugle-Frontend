@@ -103,6 +103,7 @@ class ClubSignup extends React.Component
     render(){
         return(
             <>
+                <div class="page-body">
                 <div class="login-form">
                     <center>
                     <form onSubmit={this.submitForm}>
@@ -119,6 +120,7 @@ class ClubSignup extends React.Component
                         <input type="submit" value="Signup"></input>
                     </form>
                     </center>
+                </div>
                 </div>
             </>
         )

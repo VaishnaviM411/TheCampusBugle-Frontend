@@ -4,7 +4,7 @@ import './Login.css';
 import axios from 'axios';
 import { getToken, getURL, getUsername } from './utils';
 
-function Createpost(props)
+function Createpost()
 {
     const { section } = useParams();
     console.log(section);

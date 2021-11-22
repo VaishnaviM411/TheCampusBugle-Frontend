@@ -3,46 +3,9 @@ import './Col1.css';
 import profilepic from './profilepic.jpg'
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
-function Col1() 
+function Col1(props) 
 {
-    const [userprofile, setuserprofile] = useState([]);
-    let profileURL;
-    useEffect(()=>{
-        try{
-            const token = getToken();
-            //console.log(token);
-            const username = getUsername();
-            if(username.length>0)
-            {
-                profileURL = getURL()+"profile/"+getUsername();
-                axios.get(profileURL,
-                    {headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `${token}`
-                }})
-                .then(res => {
-                    setuserprofile(res.data);
-                })
-                .catch((err) => {
-                    console.log(err.message);
-                    if(err.message==="Request failed with status code 401")
-                    {
-                        alert("Login to access TheCampusBugle");
-            window.location="/login";
-            return;
-                    }
-                }
-
-                )
-            }
-        }
-        catch{
-            alert("Login to access TheCampusBugle");
-            window.location="/login";
-            return;
-        }
-        
-    });
+    
 
 
     
@@ -50,14 +13,45 @@ function Col1()
             <>
             <div class="col1">
                 <div class="profile-card"><center>
-                
-                    <img src={userprofile["profile_picture"]} alt="profilepic"></img>
-                    <h5>{userprofile["username"]}</h5>
-                    <div><p>{userprofile["first_name"]} {userprofile["last_name"]}</p></div>
+
+                    <img src={props.user.profile_picture} alt="profilepic"></img>
+                    
+                    
+                        { props.user.acc_type=="student" ? 
+                    <>
+                    <h5>{props.user["first_name"]} {props.user["last_name"]}</h5>
+                    <div><p>{props.user["username"]} | Student</p></div>
                     <div class="info">
-                    <div><h6>Branch</h6><p>{userprofile["branch"]}</p></div>
-                    <div><h6>PRN</h6><p>{userprofile["PRN"]}</p></div>
+                    <div><h6>Branch</h6><p>{props.user["branch"]}</p></div>
+                    <div><h6>PRN</h6><p>{props.user["PRN"]}</p></div>
                     </div>
+                    <p>{props.user.bio}</p>
+                    </>
+                        : ""}
+
+                        { props.user.acc_type=="faculty" ? 
+                    <>
+                    <h5>{props.user.first_name} {props.user.last_name}</h5>
+                    <div><p>{props.user.username} | Teacher</p></div>
+                    <p>{props.user.bio}</p>
+                    
+                    </>
+                        : ""}
+
+                        { props.user.acc_type=="club" ? 
+                    <>
+                    <h5>{props.user.name}</h5>
+                    <div><p>{props.user.username} | Club</p></div>
+                    <p>{props.user.bio}</p>
+                    
+                    </>
+                        : ""}
+                    
+
+
+
+
+                    
                     </center>
                 </div>
                 <div class="settings">

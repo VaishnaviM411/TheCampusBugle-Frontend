@@ -9,17 +9,25 @@
     --text: black;
 }
 
+.page-body
+{
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+}
+
 .login-form
 {
     background-color: white;
     border-radius: 15px;
-    padding: 5%;
-    margin-top: 5%;
+    padding: 2%;
+    margin: 2%;
+    
     color: var(--pri-color);
     justify-content: center;
-    
-
-
 }
 
 .login-form input, .login-form select, .login-form textarea

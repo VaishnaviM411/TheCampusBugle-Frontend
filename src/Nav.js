@@ -10,9 +10,9 @@ class Nav extends React.Component{
                   <div class="section">
                     <a class="navbar-brand" href="#">The Campus Bugle</a>
                     <span id="section-links">
-                      <a class="nav-link active inc-wid" aria-current="page" href="#">Notice Board</a>
-                      <a class="nav-link inc-wid" href="#">Club Broadcast</a>
-                      <a class="nav-link inc-wid" href="#">Feed</a>
+                      <a class="nav-link inc-wid" aria-current="page" href="/notice-board">Notice Board</a>
+                      <a class="nav-link inc-wid" href="/club-broadcast">Club Broadcast</a>
+                      <a class="nav-link inc-wid" href="/feed">Feed</a>
                     </span>
                   </div> 
                   <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -26,9 +26,9 @@ class Nav extends React.Component{
                     <div class="offcanvas-body">
                       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <span id="section-links-mobile">
-                          <a class="nav-link active" aria-current="page" href="#">Notice Board</a>
-                          <a class="nav-link" href="#">Club Broadcast</a>
-                          <a class="nav-link" href="#">Feed</a>
+                          <a class="nav-link" aria-current="page" href="/notice-board">Notice Board</a>
+                          <a class="nav-link" href="/club-broadcast">Club Broadcast</a>
+                          <a class="nav-link" href="/feed">Feed</a>
                         </span>
                         <li class="nav-item">
                           <a class="nav-link" aria-current="page" href="#">About us</a>
