@@ -40,12 +40,13 @@
 .post-content
 {
     background-color: var(--sec-color);
-    margin: 1%;
+    margin: 0.5%;
     padding: 1%;
     border-radius: 15px;
-    width: 60%;
+    width: 58%;
     display: flex;
     flex-direction: column;
+   
 }
 
 .text-content
@@ -83,20 +84,36 @@
 .comments
 {
     background-color: var(--sec-color);
-    margin: 1%;
+    margin: 0.5%;
     padding: 1%;
     border-radius: 15px;
     width: 40%;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+   
 }
+
+
+.view-comments
+{
+    overflow-y: scroll;
+}
+
+.author-pic
+{
+    display: flex;
+    align-items: center;
+}
+
 
 .author-pic img
 {
     border-radius: 50%;
     width: 60px;
     height: 60px;
-    padding: 5%;
+    margin: 2px;
+    
 }
 
 @media  screen and (max-width: 830px) 
@@ -112,8 +129,54 @@
     
 }
 
+.comments-header
+{
+    color: var(--pri-color);
+}
+
+.like-btn
+{
+    display: flex;
+    color: var(--pri-color);
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
 .like-btn img
 {
-    width: 60px;
+    width: 40px;
     height: auto;
+    float: right;
 }
+
+.like-btn form
+{
+    display: flex;
+    padding: 2%;
+    width: 100%;
+}
+
+.like-btn input
+{
+    width: 100%;
+}
+
+.like-btn button 
+{
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+}
+
+.like-btn button img
+{
+    width: 30px;
+}
+
+.like-btn h6
+{
+    margin: 0;
+}
+

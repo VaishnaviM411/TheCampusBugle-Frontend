@@ -1,47 +1,54 @@
 import React, {useState, useEffect} from 'react';
 import './Feed.css';
 import profilepic from './profilepic.jpg';
-import post1 from './post1.png';
+
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import Post from './Post';
 function Feed(props)
 {
-    
-    
+    const [section, setsection] = useState(["Feed"]);
+    const allposts=[];
     const [feed_posts, setfeed_posts] = useState([]);
-    //console.log(feed_posts);
+    
+    
     let postsURL = getURL()+"Feed";
     useEffect(() => {
+       
         try{
             const token = getToken();
             const username = getUsername();
-            console.log(token);
             if(username.length>0)
-            {
+            {   
+                
                 axios.get(postsURL,
                     {headers: {
                     "Content-Type": "application/json",
                     "authorization": `${token}`
                 }})
                 .then(res => {
+                    console.log(res.data);
                     const data=res.data;
                     for(let i=0; i<data.length; i++)
                     {
                         feed_posts.push(data[i]);
                     }
+                   
+   
+    
                 })
                 .catch((err) => {
-                    console.log(err.message);
+                    
                     if(err.message==="Request failed with status code 401")
                     {
                         alert("Login to access TheCampusBugle");
-            window.location="/login";
-            return;
+                        window.location="/login";
+                        return;
                     }
                 }
 
                 )
+            
             }
         }
         catch{
@@ -49,13 +56,14 @@ function Feed(props)
             window.location="/login";
             return;
         }
-    }, []);
-    const allposts=[];
+    },[]);
     for(let i=0; i<feed_posts.length; i++)
     {
-        allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]} user={props.user} section="Feed"/>);
+        
+        feed_posts[i]["section"]=section;
+        feed_posts[i]["user"]=props.user;
+        allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]}/>);
     }
-    
     
     return(
             <>
@@ -69,8 +77,7 @@ viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-wi
                     </a>
                     </div>
                    
-                   {allposts.map((title) => title)}
-
+                    {allposts.map((title) => title)}
                     
                     
                 </div>

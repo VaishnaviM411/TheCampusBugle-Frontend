@@ -10,7 +10,7 @@ function Createpost()
     console.log(section);
     const [caption, setcaption] = useState("");
     const [filelink, setfilelink] = useState("");
-    const [message, setmessage] = useState("");
+    const [message, setmessage] = useState(0);
     var username;
     var token;
     const captionHandler = (e) => {
@@ -29,7 +29,8 @@ function Createpost()
             alert("Login to post");
             window.location="/login";
         }
-
+        setmessage(message+1);
+        console.log(message);
     }, [])
     
     const submitForm = (e) => {

@@ -16,9 +16,10 @@ function Main()
     const [userprofile, setuserprofile] = useState([]);
     let profileURL;
     useEffect(()=>{
+        console.log("im in main");
         try{
             const token = getToken();
-            //console.log(token);
+            console.log(token);
             const username = getUsername();
             if(username.length>0)
             {
@@ -29,7 +30,9 @@ function Main()
                     "authorization": `${token}`
                 }})
                 .then(res => {
+                    console.log("run");
                     setuserprofile(res.data);
+                    console.log(res.data);
                 })
                 .catch((err) => {
                     console.log(err.message);
@@ -50,7 +53,7 @@ function Main()
             return;
         }
         
-    });
+    },[]);
 
     if(section=="feed")
     {
@@ -73,7 +76,7 @@ function Main()
                 <div class="main-panel">
                     <Nav/>
                     <Col1 user={userprofile}/>
-                    <Broadcast user={userprofile}/>
+                    
                 </div>
             </>
         );
@@ -86,7 +89,7 @@ function Main()
                 <div class="main-panel">
                     <Nav/>
                     <Col1 user={userprofile}/>
-                    <NoticeBoard user={userprofile}/>
+                    
                 </div>
             </>
         );

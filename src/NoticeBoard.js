@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './Feed.css';
 import profilepic from './profilepic.jpg';
-import post1 from './post1.png';
+
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import Post from './Post';
-function NoticeBoard()
+function NoticeBoard(props)
 {
+    const [section, setsection] = useState(["Feed"]);
     const [userprofile, setuserprofile] = useState([]);
     let profileURL;
     useEffect(()=>{
@@ -44,7 +45,7 @@ function NoticeBoard()
             return;
         }
         
-    });
+    },[]);
     
     const [feed_posts, setfeed_posts] = useState([]);
     //console.log(feed_posts);
@@ -90,7 +91,7 @@ function NoticeBoard()
     const allposts=[];
     for(let i=0; i<feed_posts.length; i++)
     {
-        allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]} />);
+        //allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]} />);
     }
     
     
@@ -107,8 +108,7 @@ viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-wi
                     </a>
                         : ""}
                     </div>
-                   
-                   {allposts.map((title) => title)}
+              
 
                     
                     
