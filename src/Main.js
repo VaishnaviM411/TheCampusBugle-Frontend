@@ -61,7 +61,7 @@ function Main()
             <>
             
                 <div class="main-panel">
-                    <Nav/>
+                    <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
                     <Feed user={userprofile}/>
                 </div>
@@ -74,7 +74,7 @@ function Main()
             <>
             
                 <div class="main-panel">
-                    <Nav/>
+                    <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
                     
                 </div>
@@ -87,7 +87,7 @@ function Main()
             <>
             
                 <div class="main-panel">
-                    <Nav/>
+                    <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
                     
                 </div>

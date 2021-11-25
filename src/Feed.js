@@ -1,21 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import './Feed.css';
 import profilepic from './profilepic.jpg';
 
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import Post from './Post';
-function Feed(props)
+class Feed extends Component
 {
-    const [section, setsection] = useState(["Feed"]);
-    //const allposts=[];
-    const [allposts, setallposts] = useState([]);
-    const [feed_posts, setfeed_posts] = useState([]);
-    console.log("vro");
+    constructor(props) {
+        super(props);
+        this.state = {
+         section: 'Feed',
+         allposts: [],
+         feed_posts: []
+        };
+      }
+
+   
     
-    let postsURL = getURL()+"Feed";
-    useEffect(() => {
-       
+    
+    componentDidMount() {
+        console.log("vro");
+        let postsURL = getURL()+"Feed";
         try{
             const token = getToken();
             const username = getUsername();
@@ -30,11 +36,19 @@ function Feed(props)
                 .then(res => {
                     console.log(res.data);
                     const data=res.data;
-                    for(let i=0; i<data.length; i++)
+                    this.setState({feed_posts:data});
+                    /*for(let i=0; i<data.length; i++)
                     {
-                        feed_posts.push(data[i]);
+                        this.state.feed_posts.push(data[i]);
+                    }*/
+                    for(let i=0; i<this.state.feed_posts.length; i++)
+                    {
+                        
+                        this.state.feed_posts[i]["section"]=this.state.section;
+                        this.state.feed_posts[i]["user"]=this.props.user;
+                        this.state.allposts.push(<Post key={this.state.feed_posts[i].title} data={this.state.feed_posts[i]}/>);
+                        console.log(this.state.allposts[i]);
                     }
-                    RenderPosts();
                     
    
     
@@ -58,22 +72,13 @@ function Feed(props)
             window.location="/login";
             return;
         }
-    },[]);
+    }
 
-  function RenderPosts(){
-        
-        for(let i=0; i<feed_posts.length; i++)
-        {
-            
-            feed_posts[i]["section"]=section;
-            feed_posts[i]["user"]=props.user;
-            allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]}/>);
-            console.log(allposts[i]);
-        }
-    }  
+ 
     
     
-    return(
+    render(){
+        return(
             <>
                 <div class="feed">
                     <div class="feed-heading">
@@ -85,12 +90,13 @@ viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-wi
                     </a>
                     </div>
                    
-                    {allposts.map((key) => key)}
+                    {this.state.allposts.map((key) => key)}
                     
                     
                 </div>
             </>
         )
+        }
     
 }
 

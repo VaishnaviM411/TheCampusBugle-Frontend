@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import './Feed.css';
 import profilepic from './profilepic.jpg';
 import solidclap from './solid-clap.png';
@@ -8,24 +8,29 @@ import Comment from './Comment';
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import $ from 'jquery';
-function Post(props)
+import { render } from '@testing-library/react';
+class Post extends Component
 {
     
-    const [message, setmessage] = useState("Liked");
-    
-    const URL=getURL();
-    const likeURL=URL+"like/"+ props.data.section + "/" + props.data.title;
-    const user=props.data.user;
-    const [no_of_likes, setno_of_likes] = useState(props.data.no_of_likes);
-    const [likes, setlikes] = useState(props.data.likes)
-    let thisPost = getURL()+props.data.section+"/"+props.data.title;
-    
-            
-    const likeHandler = (e) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+         message: '',
+         postdata: this.props.data,
+         section: this.props.data.section,
+         allcomments: [],
+         authorProfile: [],
+         authorProfilePage: "/profile/"+this.props.data.author,
+         username: getUsername(),
+         comment: ''
+        };
+      }
+
+    likeHandler = (e) => {
         e.preventDefault();
-        
         const token = getToken();
         const username = getUsername();
+        const likeURL= getURL() +"like/"+ this.state.section + "/" + this.state.postdata.title;
         if(username.length>0)
         {
             fetch(
@@ -41,33 +46,18 @@ function Post(props)
                     "authorization": `${token}`
             }})*/
             .then(response => {
-                console.log("like success");
-                
-                
-                
-                
-            })
-            .catch((err) => {
-                console.log(err.message);
-                if(err.message==="Request failed with status code 401"||err.message==="Request failed with status code 404")
-                {
-                    alert("Login to access TheCampusBugle");
-                    window.location="/login";
-                    return;
-                }
-            });
-             
+                console.log("like success"); 
+
+                //getting updates
+                let thisPost = getURL()+this.state.section+"/"+this.state.postdata.title;
             axios.get(thisPost,
                 {headers: {
                 "Content-Type": "application/json",
                 "authorization": `${token}`
             }})
             .then(res => {
-               
-                setno_of_likes(res.data.no_of_likes);
-                setlikes(res.data.likes);
-
-
+                console.log(res.data);
+               this.setState({postdata: res.data});
             })
             .catch((err) => {
                 
@@ -80,14 +70,25 @@ function Post(props)
             }
 
             )
+                //close
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+                if(err.message==="Request failed with status code 401"||err.message==="Request failed with status code 404")
+                {
+                    alert("Login to access TheCampusBugle");
+                    window.location="/login";
+                    return;
+                }
+            });
+            
         }
     }
-    const authorProfile="/profile/"+props.data.author;
-    const [allcomments, setallcomments] = useState([]);
-    const [no_of_comments, setno_of_comments] = useState(0);
-    useEffect(() => {
-        console.log(props.data.no_of_comments_active);
-        const getcommentsURL=getURL()+"allcomments/"+props.data.section+"/"+props.data.title;
+
+    componentDidMount(){
+        const authorProfileURL="/profile/"+this.state.postdata.author;
+        const getcommentsURL=getURL()+"allcomments/"+this.state.section+"/"+this.state.postdata.title;
         const token=getToken();
         axios.get(getcommentsURL,
             {headers: {
@@ -98,12 +99,24 @@ function Post(props)
             
             const data=res.data;
             
-            for(let i=0; i<props.data.no_of_comments_active; i++)
-            {
-                allcomments[i]=data[i];
-                console.log(allcomments[i]);
+            this.setState({allcomments:data});
+            console.log(this.state.allcomments);
+
+            //get author details
+            axios.get(authorProfileURL,
+                {headers: {
+                "Content-Type": "application/json",
+                "authorization": `${token}`
+            }})
+            .then(res => {
+                this.setState({authorProfile:res.data});
+                console.log(this.state.authorProfile);
+            })
+            .catch((err) => {
+                
             }
-            console.log(allcomments);
+            )
+            //close
             
 
         })
@@ -116,11 +129,84 @@ function Post(props)
         }
 
         )
+    }
 
 
-
-    }, [])
     
+
+    setInput = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+        }
+
+    CommentHandler = (e) => {
+        e.preventDefault();
+        $('#comment').val('');
+        const token = getToken();
+        const username = getUsername();
+        const commentURL= getURL() +"comment/"+ this.state.section + "/" + this.state.postdata.title+ "/none";
+        if(username.length>0)
+        {
+            axios.post(commentURL, 
+                {
+                    comment: this.state.comment
+                },
+                {headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `${token}`
+            }})
+            .then(response => {
+                console.log("comment success"); 
+                this.setState({comment:""});
+                //getting comments
+                const getcommentsURL=getURL()+"allcomments/"+this.state.section+"/"+this.state.postdata.title;
+            console.log(
+                "getting comment");
+        axios.get(getcommentsURL,
+            {headers: {
+            "Content-Type": "application/json",
+            "authorization": `${token}`
+        }})
+        .then(res => {
+            
+            const data=res.data;
+            this.setState({allcomments:data});
+            console.log(this.state.allcomments);
+            
+
+        })
+        .catch((err) => {
+            
+            /*if(err.message==="Request failed with status code 401")
+            {
+                setno_of_comments(0);
+            }*/
+        }
+
+        )
+                //close
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+                if(err.message==="Request failed with status code 401"||err.message==="Request failed with status code 404")
+                {
+                    alert("Login to access TheCampusBugle");
+                    window.location="/login";
+                    return;
+                }
+                if(err.message==="Request failed with status code 401"||err.message==="Request failed with status code 404")
+                {
+                    alert("Post does not exist, refresh page");
+                    return;
+                }
+            });
+            
+        }
+    }
+    
+    render(){
         return(
             <>
                 
@@ -130,20 +216,20 @@ function Post(props)
                 <div class="post-content"><div class="keepleft">
                     <div class="text-content">
                         <div class="author-pic">
-                        <img src={profilepic}></img>
-                        <a href={authorProfile}>
-                        <h6>{props.data.author}</h6>
+                        <img src={this.state.authorProfile.profile_picture}></img>
+                        <a href={this.state.authorProfilePage}>
+                        <h6>{this.state.postdata.author}</h6>
                         </a>
                         </div>
                         
-                        <p>{props.data.caption}</p>
+                        <p>{this.state.postdata.caption}</p>
                     </div>
                     <div class="file-content">
-                        <img src={props.data.file}></img>
+                        <img src={this.state.postdata.file}></img>
                     </div>
                     <div class="like-btn">
-                        <a href="" onClick={likeHandler}>
-                            { likes.indexOf(user.username)==-1 ?
+                        <a href="" onClick={this.likeHandler}>
+                            { this.state.postdata.likes.indexOf(this.state.username)==-1 ?
                             <img src={outlineclap}></img>
                         
                             :
@@ -151,9 +237,9 @@ function Post(props)
                             }
                             
                         </a>
-                        <h6>{no_of_likes}</h6>
-                        <form>
-                            <input type="text" placeholder="Comment here..."></input>
+                        <h6>{this.state.postdata.no_of_likes}</h6>
+                        <form onSubmit={this.CommentHandler}>
+                            <input type="text" name="comment" id="comment" placeholder="Comment here..." onChange={this.setInput}  value={this.state.comment} required></input>
                             <button type="submit">
                                 <img src={postcomment}></img>
                             </button>
@@ -164,13 +250,13 @@ function Post(props)
                 
                 <div class="comments"><div class="keepleft">
                     <div class="comments-header">
-                        <h6>Comments ({props.data.no_of_comments_active})</h6>
+                        <h6>Comments ({this.state.postdata.no_of_comments_active})</h6>
                     </div>
                     <div class="view-comments">
                   
     
                         
-                    {allcomments.map((key, data) => {
+                    {this.state.allcomments.map((key, data) => {
                             return <div class="comment">
                             <p><i>{key.author._path.segments[1]}: </i>{key.comment}</p>
                             <hr></hr>
@@ -197,7 +283,7 @@ function Post(props)
                     
             </>
         )
-    
+    }
 }
 
 export default Post;

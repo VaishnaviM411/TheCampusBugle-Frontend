@@ -30,6 +30,12 @@
     justify-content: center;
 }
 
+.login-form img
+{
+    width: 80px;
+    height: 80px;
+}
+
 .login-form input, .login-form select, .login-form textarea
 {
     border: 1px solid var(--sec-color);
@@ -66,9 +72,26 @@ p
 }
 
 
-h2, h3, h4
+h1,h2, h3, h4,h5,h6
 {
     margin: 2%;
     padding: 1%;
 
 }
+
+.list a,.list a:hover,.list a:visited,.list a:active
+{
+    text-decoration: none;
+    outline: none;
+    color: white;
+    border-radius: 15px;
+    background-color: var(--pri-color);
+    padding: 1%;
+    float: right;
+}
+
+.list p
+{
+    margin: 0;
+}
+
