@@ -8,9 +8,10 @@ import Post from './Post';
 function Feed(props)
 {
     const [section, setsection] = useState(["Feed"]);
-    const allposts=[];
+    //const allposts=[];
+    const [allposts, setallposts] = useState([]);
     const [feed_posts, setfeed_posts] = useState([]);
-    
+    console.log("vro");
     
     let postsURL = getURL()+"Feed";
     useEffect(() => {
@@ -33,7 +34,8 @@ function Feed(props)
                     {
                         feed_posts.push(data[i]);
                     }
-                   
+                    RenderPosts();
+                    
    
     
                 })
@@ -57,13 +59,19 @@ function Feed(props)
             return;
         }
     },[]);
-    for(let i=0; i<feed_posts.length; i++)
-    {
+
+  function RenderPosts(){
         
-        feed_posts[i]["section"]=section;
-        feed_posts[i]["user"]=props.user;
-        allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]}/>);
-    }
+        for(let i=0; i<feed_posts.length; i++)
+        {
+            
+            feed_posts[i]["section"]=section;
+            feed_posts[i]["user"]=props.user;
+            allposts.push(<Post key={feed_posts[i].title} data={feed_posts[i]}/>);
+            console.log(allposts[i]);
+        }
+    }  
+    
     
     return(
             <>
@@ -77,7 +85,7 @@ viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-wi
                     </a>
                     </div>
                    
-                    {allposts.map((title) => title)}
+                    {allposts.map((key) => key)}
                     
                     
                 </div>

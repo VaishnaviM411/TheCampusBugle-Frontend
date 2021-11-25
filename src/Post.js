@@ -10,7 +10,7 @@ import axios from 'axios';
 import $ from 'jquery';
 function Post(props)
 {
-    console.log("i'm in post");
+    
     const [message, setmessage] = useState("Liked");
     
     const URL=getURL();
@@ -23,7 +23,7 @@ function Post(props)
             
     const likeHandler = (e) => {
         e.preventDefault();
-        console.log("in like hanlder");
+        
         const token = getToken();
         const username = getUsername();
         if(username.length>0)
@@ -42,8 +42,8 @@ function Post(props)
             }})*/
             .then(response => {
                 console.log("like success");
-                console.log(response);
-                console.log(response.body);
+                
+                
                 
                 
             })
@@ -82,10 +82,11 @@ function Post(props)
             )
         }
     }
-
+    const authorProfile="/profile/"+props.data.author;
     const [allcomments, setallcomments] = useState([]);
     const [no_of_comments, setno_of_comments] = useState(0);
     useEffect(() => {
+        console.log(props.data.no_of_comments_active);
         const getcommentsURL=getURL()+"allcomments/"+props.data.section+"/"+props.data.title;
         const token=getToken();
         axios.get(getcommentsURL,
@@ -96,14 +97,14 @@ function Post(props)
         .then(res => {
             
             const data=res.data;
-            for(let i=0; i<data.length; i++)
-            {
-                allcomments.push(data[i]);
-            }
-
-           
             
-            //setno_of_comments(allcomments.length);
+            for(let i=0; i<props.data.no_of_comments_active; i++)
+            {
+                allcomments[i]=data[i];
+                console.log(allcomments[i]);
+            }
+            console.log(allcomments);
+            
 
         })
         .catch((err) => {
@@ -119,15 +120,6 @@ function Post(props)
 
 
     }, [])
-    const COMMENTS=[];
-    console.log(COMMENTS);
-    for(let i=0; i<allcomments.length; i++)
-    {
-        COMMENTS.push(<Comment key={allcomments[i].comment} data={allcomments[i]}/>);
-        console.log(COMMENTS[i]);
-        
-    }
-    console.log(COMMENTS);
     
         return(
             <>
@@ -138,7 +130,10 @@ function Post(props)
                 <div class="post-content"><div class="keepleft">
                     <div class="text-content">
                         <div class="author-pic">
-                        <img src={profilepic}></img><h6>{props.data.author}</h6>
+                        <img src={profilepic}></img>
+                        <a href={authorProfile}>
+                        <h6>{props.data.author}</h6>
+                        </a>
                         </div>
                         
                         <p>{props.data.caption}</p>
@@ -172,29 +167,19 @@ function Post(props)
                         <h6>Comments ({props.data.no_of_comments_active})</h6>
                     </div>
                     <div class="view-comments">
-                    {COMMENTS.map((comment) => comment)}
+                  
+    
                         
-                        <div class="comment">
-                            <p><i>Username:</i> Hey there, how are you?</p>
+                    {allcomments.map((key, data) => {
+                            return <div class="comment">
+                            <p><i>{key.author._path.segments[1]}: </i>{key.comment}</p>
                             <hr></hr>
-                        </div>
-                        <div class="comment">
-                            <p><i>Username:</i> Hey there, how are you?</p>
-                            <hr></hr>
-                        </div>
-                        <div class="comment">
-                            <p><i>Username:</i> Hey there, how are you?</p>
-                            <hr></hr>
-                        </div>
-                        <div class="comment">
-                            <p><i>Username:</i> Hey there, how are you?</p>
-                            <hr></hr>
-                        </div>
-                        <div class="comment">
-                            <p><i>Username:</i> Hey there, how are you?</p>
-                            <hr></hr>
-                        </div>
-                       
+                        </div> 
+                        })}
+                        
+                        
+
+                        
                         
                         
                     </div>
