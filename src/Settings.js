@@ -13,13 +13,15 @@ class Settings extends React.Component
          bio: '',
          displaybio: '',
          profile_picture: '',
+         update_photo: '',
          acc_type: '',
          username: '',
          message:'',
          email: '',
          club_subscribed: '',
          feed_subscribed: '',
-         board_subscribed: ''
+         board_subscribed: '',
+         screenready: false
         };
       }
 
@@ -79,10 +81,10 @@ class Settings extends React.Component
                     this.setState({
                         club_subscribed: res.data["club-broadcast"],
                         feed_subscribed: res.data["feed"],
-                        notice_subscribed: res.data["notice-board"]
+                        board_subscribed: res.data["notice-board"]
                     });
                     console.log(res);
-                    
+                    this.setState({screenready:true});
 
                 })
                 .catch((err) => {
@@ -162,6 +164,76 @@ class Settings extends React.Component
                 
             });
         };
+
+        photoForm = e => {
+            e.preventDefault();
+            const token = getToken();
+            const updateURL = getURL() + "profile/" + this.state.username;
+            if(this.state.update_photo.type!=="image/png" && this.state.update_photo.type!=="image/jpg" && this.state.update_photo.type!=="image/jpeg")
+            {
+              alert("Invalid File-Type. Profile picture should be image of png, jpg or jpeg format.");
+              return 0;
+            }
+    
+            const uploadfileURL = "https://asia-south1-thecampusbugle.cloudfunctions.net/api/" + "upload-file";
+    
+            const formData = new FormData();
+            formData.append('file', this.state.update_photo);
+            fetch(
+                    uploadfileURL,
+                    {
+                        method: 'POST',
+                        body: formData,
+                    }
+                )
+            .then((response) => response.json())
+                .then((result) => {
+    
+                    axios.put(
+                        updateURL,
+                        {
+                            profile_picture: result.link
+                        },
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "authorization": `${token}`
+                            },
+                        }
+                    )
+                    .then((response) => {
+                    if (response.status === 200) {
+                            this.setState({
+                                profile_picture: response.data.data.profile_picture,
+                                message: "Photo updated",
+                                update_photo: ""
+                            });
+                            console.log(response.data);
+                            }
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                        if(err.message==="Request failed with status code 404")
+                        {
+                            this.setState({
+                                
+                                message: "Login reqiured!",
+                                });
+                                return 0;
+                        }
+                        else
+                        {
+                            console.log(err);
+                        }
+                        
+                    });
+                })
+            .catch((error) => {
+                alert("Problem with Image Upload");
+                return 0;
+            });
+        }
+        
 
         subscribeHandler = section => e => {
             e.preventDefault();
@@ -290,6 +362,7 @@ class Settings extends React.Component
     render(){
         return(
             <>
+            { this.state.screenready ?
                 <div class="page-body">
                 <div class="login-form">
                     <center>
@@ -306,8 +379,8 @@ class Settings extends React.Component
                         </form>
                         <br></br>
                         <form onSubmit={this.photoForm}>
-                            <label for="profile_picture">Profile Picture</label><br></br>
-                            <input type="file" name="profile_picture" onChange={this.setFileInput} required></input><br></br>
+                            <label for="update_photo">Profile Picture</label><br></br>
+                            <input type="file" name="update_photo" onChange={this.setFileInput} required></input><br></br>
                             <br></br>
                             <input type="submit" value="Update"></input>
                         </form>
@@ -339,6 +412,7 @@ class Settings extends React.Component
                         </div>
                 </div>
                 </div>
+                :""}
             </>
         );
     }

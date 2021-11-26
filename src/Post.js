@@ -5,7 +5,6 @@ import solidclap from './solid-clap.png';
 import outlineclap from './outline-clap.png';
 import postcomment from './post-comment.png';
 import deleteicon from './delete-icon.png';
-import Comment from './Comment';
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import $ from 'jquery';
@@ -22,7 +21,8 @@ class Post extends Component
          authorProfile: [],
          authorProfilePage: "/profile/"+this.props.data.author,
          username: getUsername(),
-         comment: ''
+         comment: '',
+         screenready: false
         };
       }
 
@@ -111,6 +111,7 @@ class Post extends Component
             .then(res => {
                 this.setState({authorProfile:res.data});
                 console.log(this.state.authorProfile);
+                this.setState({screenready:true});
             })
             .catch((err) => {
                 
@@ -121,7 +122,7 @@ class Post extends Component
 
         })
         .catch((err) => {
-            
+            this.setState({screenready:true});
             /*if(err.message==="Request failed with status code 401")
             {
                 setno_of_comments(0);
@@ -207,6 +208,7 @@ class Post extends Component
     }
 
     deleteCommentHandler = comment_id => (e) => {
+        
         e.preventDefault();
         const token = getToken();
         const username = getUsername();
@@ -267,11 +269,45 @@ class Post extends Component
             
         }
     }
+
+    deletePostHandler = (e) => {
+        e.preventDefault();
+        const token = getToken();
+        const username = getUsername();
+        const deletepostURL= getURL() +"delete-post/" + this.state.section + "/" + this.state.postdata.title;//post title
+        if(username.length>0)
+        {
+            axios.delete(deletepostURL, 
+                {headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `${token}`
+            }})
+            .then(response => {
+                console.log("delete post success"); 
+                
+                //getting posts
+                window.location="/"+this.state.section;
+                //close
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+                if(err.message==="Request failed with status code 404")
+                {
+                    alert("Login to access TheCampusBugle");
+                    window.location="/login";
+                    return;
+                }
+                
+            });
+            
+        }
+    }
     
     render(){
         return(
             <>
-                
+            { this.state.screenready ?
             <div class="post">
                 
                 
@@ -282,6 +318,9 @@ class Post extends Component
                         <a href={this.state.authorProfilePage}>
                         <h6>{this.state.postdata.author}</h6>
                         </a>
+                        { this.state.postdata.author==this.state.username ?
+                        <a href="" onClick={this.deletePostHandler} class="deletebtn"><img src={deleteicon}></img></a>
+                        : ""}
                         </div>
                         
                         <p>{this.state.postdata.caption}</p>
@@ -344,7 +383,7 @@ class Post extends Component
                
                 
             </div>
-
+            :""}
                     
                         
                     

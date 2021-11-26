@@ -3,7 +3,6 @@ import { useParams } from 'react-router';
 import Nav from './Nav';
 import Col1 from './Col1';
 import Feed from './Feed';
-import Col3 from './Col3';
 import Broadcast from './Broadcast';
 import NoticeBoard from './NoticeBoard';
 
@@ -12,6 +11,7 @@ import axios from 'axios';
 
 function Main()
 {
+    const [screenready, setscreenready] = useState(false);
     const { section } = useParams();
     const [userprofile, setuserprofile] = useState([]);
     let profileURL;
@@ -33,6 +33,7 @@ function Main()
                     console.log("run");
                     setuserprofile(res.data);
                     console.log(res.data);
+                    setscreenready(true);
                 })
                 .catch((err) => {
                     console.log(err.message);
@@ -59,12 +60,13 @@ function Main()
     {
         return(
             <>
-            
+                {screenready ?
                 <div class="main-panel">
                     <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
                     <Feed user={userprofile}/>
                 </div>
+                : ""}
             </>
         );
     }
@@ -72,12 +74,13 @@ function Main()
     {
         return(
             <>
-            
+                {screenready ?
                 <div class="main-panel">
                     <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
-                    <Broadcast user={userprofile.acc_type}/>
+                    <Broadcast user={userprofile}/>
                 </div>
+                : ""}
             </>
         );
     }
@@ -85,12 +88,13 @@ function Main()
     {
         return(
             <>
-            
+            {screenready ?
                 <div class="main-panel">
                     <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
-                    <NoticeBoard user={userprofile.acc_type}/>
+                    <NoticeBoard user={userprofile}/>
                 </div>
+                : ""}
             </>
         );
     }

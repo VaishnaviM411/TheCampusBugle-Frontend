@@ -150,6 +150,11 @@
     {
         display: block;
     }
+    .feed
+    {
+        width: 100%;
+        margin: 2px;
+    }
    
     
 }
@@ -206,3 +211,9 @@
     margin: 0;
 }
 
+.author-pic .deletebtn img
+{
+    width: 30px;
+    height: 30px;
+    float: right;
+}

@@ -75,7 +75,7 @@ function Createpost()
                 .then((response) => {
                 if (response.status === 200) {
 
-                        window.location = "/";
+                        window.location = "/"+ section;
                         }
                 })
                 .catch((err) => {

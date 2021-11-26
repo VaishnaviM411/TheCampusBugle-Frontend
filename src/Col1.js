@@ -7,7 +7,8 @@ function Col1(props)
 {
    
  
-    const MyProfileUrl = getURL()+ "/profile/" +props.user.username;
+    const MyProfileUrl = "/profile/" +props.user.username;
+    
 
 
     

@@ -12,7 +12,9 @@ class Feed extends Component
         this.state = {
          section: 'Feed',
          allposts: [],
-         feed_posts: []
+         feed_posts: [],
+         screenready: false,
+         user: this.props.user
         };
       }
 
@@ -49,7 +51,7 @@ class Feed extends Component
                         this.state.allposts.push(<Post key={this.state.feed_posts[i].title} data={this.state.feed_posts[i]}/>);
                         console.log(this.state.allposts[i]);
                     }
-                    
+                    this.setState({screenready:true});
    
     
                 })
@@ -80,6 +82,7 @@ class Feed extends Component
     render(){
         return(
             <>
+                { this.state.screenready ?
                 <div class="feed">
                     <div class="feed-heading">
                         Feed
@@ -94,6 +97,7 @@ viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-wi
                     
                     
                 </div>
+                : ""}
             </>
         )
         }

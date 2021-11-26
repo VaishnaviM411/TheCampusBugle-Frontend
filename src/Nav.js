@@ -3,7 +3,7 @@ import './Nav.css'
 import { getURL } from './utils';
 function Nav(props) {
 
-  const MyProfileUrl = getURL()+ "/profile/" +props.user.username;
+  const MyProfileUrl =  "/profile/" +props.user.username;
 
     
         return(
