@@ -94,6 +94,22 @@
    
 }
 
+.comment
+{
+    align-items: center;
+}
+
+.comment p
+{
+    font-size: small;
+}
+
+.comment img
+{
+    width: 20px;
+    height: 20px;
+    float: right;
+}
 
 
 .author-pic
@@ -105,6 +121,7 @@
 .author-pic a, .author-pic a:hover,.author-pic a:visited
 {
     text-decoration: none;
+    width: 100%;
 }
 
 
@@ -141,6 +158,7 @@
 {
     color: var(--pri-color);
 }
+
 
 .like-btn
 {

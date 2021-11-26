@@ -4,11 +4,11 @@ import profilepic from './profilepic.jpg';
 import solidclap from './solid-clap.png';
 import outlineclap from './outline-clap.png';
 import postcomment from './post-comment.png';
+import deleteicon from './delete-icon.png';
 import Comment from './Comment';
 import { getToken, getURL, getUsername } from './utils';
 import axios from 'axios';
 import $ from 'jquery';
-import { render } from '@testing-library/react';
 class Post extends Component
 {
     
@@ -205,6 +205,68 @@ class Post extends Component
             
         }
     }
+
+    deleteCommentHandler = comment_id => (e) => {
+        e.preventDefault();
+        const token = getToken();
+        const username = getUsername();
+        const deletecommentURL= getURL() +"delete-comment/" + comment_id;//comment title
+        if(username.length>0)
+        {
+            axios.delete(deletecommentURL, 
+                {headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `${token}`
+            }})
+            .then(response => {
+                console.log("delete comment success"); 
+                
+                //getting comments
+                const getcommentsURL=getURL()+"allcomments/"+this.state.section+"/"+this.state.postdata.title;
+            console.log(
+                "getting comment");
+        axios.get(getcommentsURL,
+            {headers: {
+            "Content-Type": "application/json",
+            "authorization": `${token}`
+        }})
+        .then(res => {
+            
+            const data=res.data;
+            this.setState({allcomments:data});
+            console.log(this.state.allcomments);
+            
+
+        })
+        .catch((err) => {
+            
+            /*if(err.message==="Request failed with status code 401")
+            {
+                setno_of_comments(0);
+            }*/
+        }
+
+        )
+                //close
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+                if(err.message==="Request failed with status code 401")
+                {
+                    alert("Login to access TheCampusBugle");
+                    window.location="/login";
+                    return;
+                }
+                if(err.message==="Request failed with status code 404")
+                {
+                    alert("Comment does not exist, refresh page");
+                    return;
+                }
+            });
+            
+        }
+    }
     
     render(){
         return(
@@ -258,7 +320,12 @@ class Post extends Component
                         
                     {this.state.allcomments.map((key, data) => {
                             return <div class="comment">
-                            <p><i>{key.author._path.segments[1]}: </i>{key.comment}</p>
+                            <p><i>{key.author._path.segments[1]}: </i>{key.comment}
+                            { key.author._path.segments[1]==this.state.username ?
+                            <a href="" onClick={this.deleteCommentHandler(key.comment_id)}><img src={deleteicon}></img></a>
+                                : "" }
+                            </p>
+                            
                             <hr></hr>
                         </div> 
                         })}

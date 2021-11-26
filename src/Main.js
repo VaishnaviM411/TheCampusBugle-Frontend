@@ -76,7 +76,7 @@ function Main()
                 <div class="main-panel">
                     <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
-                    
+                    <Broadcast user={userprofile.acc_type}/>
                 </div>
             </>
         );
@@ -89,7 +89,7 @@ function Main()
                 <div class="main-panel">
                     <Nav  user={userprofile}/>
                     <Col1 user={userprofile}/>
-                    
+                    <NoticeBoard user={userprofile.acc_type}/>
                 </div>
             </>
         );

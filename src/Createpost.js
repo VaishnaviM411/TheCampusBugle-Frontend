@@ -10,7 +10,7 @@ function Createpost()
     console.log(section);
     const [caption, setcaption] = useState("");
     const [filelink, setfilelink] = useState("");
-    const [message, setmessage] = useState(0);
+    const [message, setmessage] = useState("");
     var username;
     var token;
     const captionHandler = (e) => {
@@ -29,7 +29,7 @@ function Createpost()
             alert("Login to post");
             window.location="/login";
         }
-        setmessage(message+1);
+        
         console.log(message);
     }, [])
     
@@ -112,7 +112,7 @@ function Createpost()
                 <div class="login-form">
                     <center>
                     <form onSubmit={submitForm}>
-                    <h3>The Campus Bugle: Post to feed</h3>
+                    <h3>The Campus Bugle: Post to {section}</h3>
                         <p>{message}</p>
                         <label for="file">Share photo:</label><br></br>
                         <input type="file" name="file" onChange={fileHandler} required></input><br></br>
