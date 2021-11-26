@@ -312,7 +312,7 @@ class Post extends Component
                 
                 <div class="comments"><div class="keepleft">
                     <div class="comments-header">
-                        <h6>Comments ({this.state.postdata.no_of_comments_active})</h6>
+                        <h6>Comments </h6>
                     </div>
                     <div class="view-comments">
                   
